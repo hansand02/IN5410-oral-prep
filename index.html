@@ -1,0 +1,1256 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>IN5410 Oral Drill</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<style>
+:root {
+  --bg: #0b0d10;
+  --bg-soft: #11141a;
+  --panel: #161b22;
+  --panel-soft: #1a2029;
+  --border: #2a313c;
+  --border-soft: #1f2530;
+  --text: #e6edf3;
+  --muted: #8b949e;
+  --muted-dim: #5d6571;
+  --accent: #6aa7ff;
+  --accent-soft: rgba(106,167,255,.12);
+  --warn: #ffb060;
+  --good: #5ed47e;
+  --bad: #ff7b72;
+  --type-open:     #5ed47e;
+  --type-define:   #6aa7ff;
+  --type-mechanism:#ffb060;
+  --type-compare:  #c792ea;
+  --type-compute:  #ffb060;
+  --type-connect:  #f0c674;
+  --type-critique: #ff7b72;
+  --type-la:       #8aa3c9;
+}
+* { box-sizing: border-box; }
+html, body { height: 100%; }
+body {
+  margin: 0;
+  font: 16px/1.55 -apple-system, BlinkMacSystemFont, "SF Pro Text", system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+}
+button { font: inherit; cursor: pointer; }
+
+header {
+  padding: 14px 28px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  background: var(--bg-soft);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+h1 { margin: 0; font-size: 15px; letter-spacing: .3px; font-weight: 600; }
+h1 span { color: var(--accent); }
+nav { margin-left: auto; display: flex; gap: 6px; }
+nav button {
+  background: transparent;
+  color: var(--muted);
+  border: 1px solid var(--border);
+  padding: 6px 14px;
+  border-radius: 6px;
+  font-size: 13px;
+}
+nav button.active { background: var(--accent); color: var(--bg); border-color: var(--accent); }
+nav button:hover:not(.active) { color: var(--text); border-color: var(--muted); }
+
+main { max-width: 880px; margin: 0 auto; padding: 28px 24px 60px; }
+
+/* Hero question card */
+.hero {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 32px;
+  min-height: 220px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  transition: opacity .15s;
+}
+.hero.dim { opacity: 0; }
+
+.hero .meta {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  font-size: 11px;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+.hero .topic {
+  color: var(--accent);
+  padding: 3px 9px;
+  background: var(--accent-soft);
+  border-radius: 999px;
+}
+.hero .qtype {
+  padding: 3px 9px;
+  border-radius: 999px;
+  border: 1px solid currentColor;
+}
+.hero .qtype.t-Open      { color: var(--type-open); }
+.hero .qtype.t-Define    { color: var(--type-define); }
+.hero .qtype.t-Mechanism { color: var(--type-mechanism); }
+.hero .qtype.t-Compare   { color: var(--type-compare); }
+.hero .qtype.t-Compute   { color: var(--type-compute); }
+.hero .qtype.t-Connect   { color: var(--type-connect); }
+.hero .qtype.t-Critique  { color: var(--type-critique); }
+.hero .qtype.t-LA        { color: var(--type-la); }
+
+.hero .q {
+  font-size: 22px;
+  line-height: 1.4;
+  font-weight: 400;
+  color: var(--text);
+}
+
+/* Answer reveal */
+.answer-box {
+  border-top: 1px dashed var(--border);
+  padding-top: 18px;
+  margin-top: 4px;
+  font-size: 15px;
+  line-height: 1.55;
+  color: var(--text);
+  animation: fadein .25s ease;
+}
+.answer-box.hidden { display: none; }
+.answer-box ul { margin: 6px 0 8px 20px; padding: 0; }
+.answer-box li { margin-bottom: 4px; }
+.answer-box code { background: rgba(110,118,129,.18); padding: 1px 5px; border-radius: 4px; font-size: 92%; }
+.answer-box pre { background: rgba(110,118,129,.12); padding: 10px 12px; border-radius: 6px; font-size: 13px; overflow-x: auto; line-height: 1.4; }
+@keyframes fadein { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
+
+
+.top-controls {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-bottom: 18px;
+}
+.top-controls .primary {
+  background: var(--accent);
+  color: var(--bg);
+  border: 0;
+  padding: 11px 22px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 14px;
+}
+.top-controls .ghost {
+  background: transparent;
+  color: var(--muted);
+  border: 1px solid var(--border);
+  padding: 11px 18px;
+  border-radius: 8px;
+  font-size: 14px;
+}
+.top-controls .ghost:hover { color: var(--text); border-color: var(--muted); }
+.top-controls .primary:hover { filter: brightness(1.1); }
+.top-controls kbd {
+  background: rgba(0,0,0,.25); padding: 1px 5px; border-radius: 3px;
+  font-size: 10px; font-family: ui-monospace, monospace;
+}
+
+/* Action row */
+.actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  align-items: center;
+  margin-top: 18px;
+}
+.actions .primary {
+  background: var(--accent);
+  color: var(--bg);
+  border: 0;
+  padding: 10px 22px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 14px;
+}
+.actions .ghost {
+  background: transparent;
+  color: var(--muted);
+  border: 1px solid var(--border);
+  padding: 10px 18px;
+  border-radius: 8px;
+  font-size: 14px;
+}
+.actions .ghost:hover { color: var(--text); border-color: var(--muted); }
+.actions .primary:hover, .actions .rate:hover { filter: brightness(1.1); }
+.actions .spacer { flex: 1; }
+.actions .rate {
+  border: 1px solid var(--border);
+  background: var(--panel-soft);
+  color: var(--text);
+  padding: 10px 16px;
+  border-radius: 8px;
+  font-size: 13px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.actions .rate kbd {
+  font-size: 10px; padding: 1px 5px; border-radius: 3px;
+  background: rgba(0,0,0,.35); color: var(--muted);
+  font-family: ui-monospace, monospace;
+}
+.actions .rate.good:hover    { color: var(--good);    border-color: var(--good); }
+.actions .rate.shaky:hover   { color: var(--warn);    border-color: var(--warn); }
+.actions .rate.missed:hover  { color: var(--bad);     border-color: var(--bad); }
+
+/* Speak-timer */
+.speak-timer {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: 4px;
+  font-size: 13px;
+  color: var(--muted);
+}
+.speak-timer button {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--muted);
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 12px;
+}
+.speak-timer button:hover { color: var(--text); border-color: var(--muted); }
+.speak-timer .running { color: var(--accent); font-variant-numeric: tabular-nums; font-weight: 700; }
+.speak-timer .over { color: var(--bad); }
+
+/* Filters drawer */
+.filters {
+  background: var(--bg-soft);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  margin-bottom: 14px;
+}
+.filters summary {
+  cursor: pointer;
+  padding: 10px 16px;
+  font-size: 13px;
+  color: var(--muted);
+  user-select: none;
+  list-style: none;
+}
+.filters summary::-webkit-details-marker { display: none; }
+.filters summary::before { content: "▸ "; color: var(--muted-dim); }
+.filters[open] summary::before { content: "▾ "; }
+.filters summary:hover { color: var(--text); }
+.filters-body { padding: 0 16px 14px; }
+.filter-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  padding: 6px 0;
+}
+.filter-row + .filter-row { border-top: 1px dashed var(--border-soft); }
+.filter-row .label {
+  font-size: 11px;
+  color: var(--muted-dim);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  width: 60px;
+  padding-top: 4px;
+}
+.chip {
+  font-size: 12px;
+  padding: 3px 10px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  cursor: pointer;
+  user-select: none;
+  background: transparent;
+  color: var(--muted);
+}
+.chip.on { background: var(--accent); color: var(--bg); border-color: var(--accent); }
+.chip:hover:not(.on) { color: var(--text); border-color: var(--muted); }
+.filter-quick {
+  display: inline-flex;
+  gap: 6px;
+  margin-left: auto;
+}
+.filter-quick button {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--muted);
+  font-size: 11px;
+  padding: 3px 8px;
+  border-radius: 6px;
+}
+.filter-quick button:hover { color: var(--text); }
+
+/* Mock + browse modes */
+.timer {
+  font-variant-numeric: tabular-nums;
+  font-size: 42px;
+  font-weight: 700;
+  text-align: center;
+  padding: 14px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--panel);
+  margin-bottom: 12px;
+}
+.timer.warn { color: var(--warn); }
+.timer.over { color: var(--bad); }
+.stage {
+  text-align: center;
+  font-size: 12px;
+  color: var(--muted);
+  margin-bottom: 16px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+.mock-info {
+  font-size: 13px;
+  color: var(--muted);
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 14px 18px;
+  margin-bottom: 18px;
+  line-height: 1.55;
+}
+.mock-controls {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 18px;
+}
+.mock-controls button {
+  background: var(--accent);
+  color: var(--bg);
+  border: 0;
+  padding: 10px 18px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 14px;
+}
+.mock-controls button.secondary {
+  background: var(--panel);
+  color: var(--text);
+  border: 1px solid var(--border);
+}
+.q-list { counter-reset: q; }
+.q-list .card {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 20px 22px;
+  margin-bottom: 14px;
+}
+.q-list .card .meta {
+  display: flex; gap: 10px;
+  font-size: 11px; letter-spacing: 1px; text-transform: uppercase;
+  margin-bottom: 8px;
+  color: var(--muted);
+}
+.q-list .card .meta .topic { color: var(--accent); font-weight: 600; }
+.q-list .card .meta .qtype { font-weight: 600; }
+.q-list .card .q {
+  font-size: 17px;
+  line-height: 1.45;
+}
+.q-list .card .q::before {
+  counter-increment: q;
+  content: counter(q) ". ";
+  color: var(--muted);
+}
+.q-list .card details {
+  border-top: 1px dashed var(--border);
+  padding-top: 10px;
+  margin-top: 10px;
+}
+.q-list .card summary { cursor: pointer; color: var(--muted); font-size: 13px; }
+.q-list .card .answer { margin-top: 8px; font-size: 14px; color: var(--text); }
+
+.hidden { display: none !important; }
+
+/* Browse mode */
+.browse h2 {
+  margin-top: 30px;
+  color: var(--accent);
+  font-size: 15px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 6px;
+}
+
+/* Footer / keyboard hints */
+footer {
+  text-align: center;
+  color: var(--muted-dim);
+  font-size: 12px;
+  padding: 18px;
+}
+footer kbd {
+  background: var(--panel-soft);
+  border: 1px solid var(--border);
+  border-bottom-width: 2px;
+  padding: 1px 6px;
+  border-radius: 4px;
+  font-family: ui-monospace, monospace;
+  font-size: 11px;
+  color: var(--text);
+}
+
+.mock-panel {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 24px;
+}
+.mock-panel .stage { margin-top: 0; }
+
+.mode-toggle {
+  display: inline-flex;
+  background: var(--bg-soft);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 4px;
+  margin-bottom: 18px;
+  gap: 2px;
+}
+.mode-toggle .seg {
+  background: transparent;
+  border: 0;
+  color: var(--muted);
+  padding: 8px 18px;
+  border-radius: 7px;
+  font-size: 13px;
+  font-weight: 600;
+}
+.mode-toggle .seg.active {
+  background: var(--accent);
+  color: var(--bg);
+}
+.mode-toggle .seg:hover:not(.active) {
+  color: var(--text);
+}
+
+.hero .scope {
+  padding: 3px 9px;
+  border-radius: 999px;
+  font-size: 11px;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  font-weight: 700;
+  border: 1px solid var(--border);
+  color: var(--muted);
+}
+.hero .scope.s-general  { color: var(--muted-dim); }
+.hero .scope.s-specific { color: var(--type-compare); border-color: var(--type-compare); }
+.answer-box .block-label {
+  font-size: 10px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--muted-dim);
+  margin-bottom: 4px;
+  margin-top: 14px;
+  font-weight: 700;
+}
+.answer-box .hint .block-label { margin-top: 0; }
+.answer-box .hint        { color: var(--text); }
+.answer-box .followups   { color: var(--muted); font-size: 14px; line-height: 1.6; }
+.answer-box .xrefs       { color: var(--muted); font-size: 13px; line-height: 1.6; font-style: italic; }
+.scope-pill { color: var(--muted-dim); font-size: 10px; letter-spacing: 1.2px; padding: 2px 7px; border: 1px solid var(--border); border-radius: 999px; text-transform: uppercase; font-weight: 700; }
+.q-list .answer .block-label { font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--muted-dim); margin-top: 12px; margin-bottom: 4px; font-weight: 700; }
+.q-list .answer > .block-label:first-child { margin-top: 0; }
+</style>
+</head>
+<body>
+<header>
+  <h1>IN5410 <span>oral drill</span></h1>
+  <nav>
+    <button id="mode-single" class="active">Single Q</button>
+    <button id="mode-all">Browse all</button>
+  </nav>
+</header>
+<main>
+
+<!-- ============================== SINGLE MODE ============================== -->
+<section id="view-single">
+  <div class="mode-toggle">
+    <button class="seg active" id="seg-single">Single Q</button>
+    <button class="seg" id="seg-mock">Mock oral (30+30)</button>
+  </div>
+<details class="filters" id="filters">
+    <summary>Filters</summary>
+    <div class="filters-body">
+      <div class="filter-row">
+        <div class="label">Topic</div>
+        <div id="topic-filter" style="display:flex;flex-wrap:wrap;gap:4px;flex:1"></div>
+        <div class="filter-quick">
+          <button data-filter="topic" data-action="all">All</button>
+          <button data-filter="topic" data-action="none">None</button>
+        </div>
+      </div>
+      <div class="filter-row">
+        <div class="label">Type</div>
+        <div id="type-filter" style="display:flex;flex-wrap:wrap;gap:4px;flex:1"></div>
+        <div class="filter-quick">
+          <button data-filter="type" data-action="all">All</button>
+          <button data-filter="type" data-action="none">None</button>
+        </div>
+      </div>
+    </div>
+  </details>
+
+  <div class="top-controls">
+    <button class="primary" id="btn-draw">🎲 Draw new question</button>
+    <button class="ghost" id="btn-reveal">Reveal answer · <kbd>R</kbd></button>
+    <span class="speak-timer">
+      <button id="btn-speak90">▶ 90s speak</button>
+      <span id="speak-display"></span>
+    </span>
+  </div>
+  <div class="mock-panel hidden" id="mock-panel">
+    <div class="mock-info">
+    <strong>Mock oral (30 + 30).</strong> Draws 5 questions from across the syllabus.
+    Prep phase: 30 min, pen + paper, write outlines and equations.
+    Delivery: 30 min, speak each answer aloud (~5 min each plus follow-ups).
+    
+  </div>
+  <div class="stage" id="mock-stage">— not started —</div>
+  <div class="timer" id="mock-timer">00:00</div>
+  <div class="mock-controls">
+    <button id="mock-start">▶ Start prep (30:00)</button>
+    <button id="mock-deliver" class="secondary hidden">▶ Start delivery (30:00)</button>
+    <button id="mock-reset" class="secondary">↺ Reset</button>
+  </div>
+  <div id="mock-cards" class="q-list"></div>
+  </div>
+  <div class="hero" id="hero">
+    <div class="meta">
+      <span class="topic" id="hero-topic">—</span>
+      <span class="qtype" id="hero-qtype">—</span>
+      <span class="scope" id="hero-scope">general</span>
+    </div>
+    <div class="q" id="hero-q">Press <kbd style="background:rgba(0,0,0,.35);padding:2px 6px;border-radius:3px">space</kbd> to draw a question.</div>
+    <div class="answer-box hidden" id="hero-a"></div>
+  </div>
+</section>
+
+<!-- ============================== BROWSE MODE ============================== -->
+<section id="view-all" class="hidden">
+  <div class="mock-info">All questions, grouped by lecture. Click <em>Show hint</em> only after speaking your answer.</div>
+  <div id="all-cards" class="browse q-list"></div>
+</section>
+
+</main>
+<footer>
+  <kbd>space</kbd> draw &nbsp;·&nbsp;
+  <kbd>r</kbd> reveal &nbsp;·&nbsp;
+  <kbd>s</kbd> speak-timer
+</footer>
+
+<script>
+// Question bank ---------------------------------------------------------------
+// Oral-exam calibrated: speakable answers, broad openers + specific drilldowns.
+const Q = [
+  // L01 ===================================================================
+  { t: "L01", k: "Open", s: "general",
+    q: "What is Energy Informatics, and what's its goal?",
+    a: "EI = the field of using ICT to address energy challenges, aiming at more sustainable energy systems. Two goals: efficient + robust grids, and enabling renewables as a main source.",
+    f: "What does the 'Internet of Energy' analogy add? · What are the two directions of EI? · Where does the field sit on top of CS foundations?",
+    x: "L02 (the architecture this field operates on) · L03 (the DR side of the goal) · L05 (green DCs = the 'second direction')" },
+  { t: "L01", k: "Mechanism", s: "general",
+    q: "Why is the Internet-of-Energy analogy useful for thinking about the smart grid?",
+    a: "Like the Internet solved coordination among many heterogeneous distributed devices, the IoE reframes the grid as a network of distributed prosumers, storage, and consumers — so principles like sharing, trading, QoS, security translate to the energy domain.",
+    f: "Name a few principles · How does this differ from a traditional grid? · What new actors appear?",
+    x: "L02 (smart-grid layered model) · L08 (decentralised coordination via blockchain)" },
+  { t: "L01", k: "Compare", s: "general",
+    q: "How does the smart grid (Internet of Energy) differ from the traditional grid?",
+    a: "Traditional: few large producers, one-way power flow, central utility prices, limited info (just metering). IoE: many prosumers, bidirectional + P2P flow, distributed/dynamic pricing, rich real-time data.",
+    f: "Where do prosumers come from technically? · What infra change enables two-way flow? · How does this affect security?",
+    x: "L02 (NIST 7 domains) · L03 (DR depends on the new info flow) · L07 (more endpoints = more attack surface)" },
+  { t: "L01", k: "Connect", s: "general",
+    q: "Why is an EV considered the canonical Energy Informatics problem?",
+    a: "Sits at the intersection of three domains: energy (charging), ICT (info exchange with stations + billing), and transport (driving). The interesting questions are at the couplings — when to charge under route+price, V2G, privacy.",
+    f: "What are the three EV roles (consumer, storage, provider)? · Why is V2G hard to deploy? · How is privacy a problem here?",
+    x: "L07 (Plug-and-Charge security) · L08 (blockchain for charging records) · L03 (EV as deferrable load)" },
+  { t: "L01", k: "Critique", s: "general",
+    q: "What's the 'second direction' of Energy Informatics, and is it really equal to the first?",
+    a: "Second direction = energy applied to ICT (green DCs, energy-aware schedulers, wind-driven clouds). It's real but the lecturer's slide frames EI primarily as ICT → energy. Treat the second direction as an addition you observe across L05/L06, not the formal definition.",
+    f: "Give examples of energy-aware ICT · How does wind-driven clouds work? · Does this matter for the exam framing?",
+    x: "L05 (green DC) · L06 (energy-aware cloud) · L09–L11 (forecasting that drives those schedulers)" },
+
+  // L02 ===================================================================
+  { t: "L02", k: "Open", s: "general",
+    q: "What's a smart grid, and how does it differ from a traditional grid?",
+    a: "Traditional: one-way power + info, few producers, passive consumers. Smart grid: bidirectional power + info, DER integration, AMI for visibility, automated control, prosumers.",
+    f: "What are the 4 power-connected components? · What roles do operations / markets / service providers play? · Why is AMI critical?",
+    x: "L01 (high-level vision) · L03 (DR needs AMI) · L07 (security surface)" },
+  { t: "L02", k: "Define", s: "general",
+    q: "What is AMI, and why is it called an integrated architecture?",
+    a: "Advanced Metering Infrastructure — not just a smart meter, but the system integrating meters + comm networks (HAN/NAN/WAN) + data management. Enables two-way comm, dynamic pricing, fault detection, renewable integration.",
+    f: "What's the difference between HAN, NAN, WAN? · What does MDMS do? · Why is real-time data the key unlock?",
+    x: "L03 (RTP needs AMI) · L07 (smart meter privacy)" },
+  { t: "L02", k: "Mechanism", s: "general",
+    q: "Walk through how data flows from a smart meter to the utility.",
+    a: "HAN (in-home, ZigBee mesh) → smart meter as gateway → NAN (neighbourhood aggregation via cellular/fiber) → WAN → utility data centre. SCADA + RTUs handle real-time supervisory control on the grid side.",
+    f: "What protocols live in HAN? · Why is each layer separate? · What gets aggregated at NAN level?",
+    x: "L06 (NAN ≈ fog layer) · L07 (HAN attack surface)" },
+  { t: "L02", k: "Compare", s: "general",
+    q: "WSN vs SCADA — when would you use each?",
+    a: "SCADA: centralised, mature, wired/dedicated, expensive — best for transmission-side critical assets. WSN: cheap distributed mesh, self-organising, lower reliability — best for renewable DER monitoring and last-mile coverage.",
+    f: "Why does WSN matter for DER? · What's the architecture of SCADA? · When does each fail?",
+    x: "L06 (WSN nodes = edge devices)" },
+  { t: "L02", k: "Critique", s: "general",
+    q: "Microgrid in island mode — useful but hard. Why?",
+    a: "Useful: resilience during grid faults, integration of local renewables, P2P trading. Hard: no inertia from main grid → frequency/voltage control fragile; needs fast protection; balancing without market-clearing.",
+    f: "What is 'island mode' specifically? · Why does inertia matter? · Where does WSN help?",
+    x: "L08 (decentralised market) · L01 (Brooklyn Microgrid example)" },
+
+  // L03 ===================================================================
+  { t: "L03", k: "Open", s: "general",
+    q: "What is demand response management, and what's its goal?",
+    a: "Mechanisms that get the demand side to follow supply (instead of historical opposite). Goal: shift/reduce load to balance system, smooth peaks, defer infrastructure, integrate variable renewables. Two flavours: utility-controlled (DLC) and price-responsive (ToU, RTP).",
+    f: "Shiftable vs non-shiftable appliances? · Why care about peaks specifically? · Where do consumers see DR in Norway?",
+    x: "L04 (RTP comes from Nord Pool) · A1 (the LP formulation)" },
+  { t: "L03", k: "Define", s: "general",
+    q: "Shiftable vs non-shiftable appliances — what's the distinction, and why does it matter?",
+    a: "Non-shiftable must run at fixed times (lighting, heating, fridge, stove). Shiftable can move within a window (dishwasher, laundry, dryer, EV). Only shiftable can be moved by DR; non-shiftable is a hard LP constraint.",
+    f: "Give examples of each · Why is laundry shiftable but TV usually isn't? · What window do you allow for an EV?",
+    x: "A1 (the assignment's setup)" },
+  { t: "L03", k: "Mechanism", s: "general",
+    q: "How does Direct Load Control work? Use the lecturer's industry example.",
+    a: "Utility installs a signal receiver in an appliance (Energex Queensland: in AC units). When the grid is stressed, utility remotely cycles or caps it. Participants get incentive payments. Must be 'transparent' = imperceptible to user, else they opt out.",
+    f: "Why must it be transparent? · What kind of appliances suit DLC? · What's the user's incentive?",
+    x: "L07 ('transparent' has the opposite meaning in GDPR)" },
+  { t: "L03", k: "Compare", s: "general",
+    q: "Direct Load Control vs price-based control — pros and cons.",
+    a: "DLC: utility has direct authority, predictable response, but needs hardware in every device + user trust. Price-based (ToU/RTP): scales easily, no hardware, but relies on consumer behaviour and creates rebound peaks at cheap hours.",
+    f: "Why does ToU create rebound peaks? · Which is more 'user-respectful'? · How does HEMS make price-based viable?",
+    x: "A1 (Task 4 fixes the rebound problem)" },
+  { t: "L03", k: "Connect", s: "general",
+    q: "Where does the consumer's spot price actually come from?",
+    a: "Nord Pool's Elspot day-ahead auction clears at 12:00 for tomorrow's 24 hourly prices. Retailer passes them through with a small margin. HEMS solves the DR optimisation overnight. So spot price on a Tibber bill is yesterday's Elspot clearing prices.",
+    f: "How does Elspot clear? · What's the difference between energy bill and grid tariff (nettleie)? · Where does Norgespris fit?",
+    x: "L04 (the market mechanics)" },
+  { t: "L03", k: "Critique", s: "general",
+    q: "What's the 'avalanche effect' of naive price-responsive scheduling, and how do we mitigate it?",
+    a: "If every household runs the cheapest hour, a synthetic peak appears at that hour — DR defeats itself. Solutions: randomisation (jitter start times), or peak-aware objective with a peak-load variable.",
+    f: "Who absorbs this problem in practice? · How does Task 4 model it? · Why doesn't ToU have this issue as badly?",
+    x: "A1 (Task 4 peak-load variable L)" },
+
+  // L04 ===================================================================
+  { t: "L04", k: "Open", s: "general",
+    q: "What is game theory, and how does it apply to energy markets?",
+    a: "Studies strategic interaction between rational agents. Applies to deregulated markets: producers choose bidding strategies, consumers choose consumption, outcomes depend on others. Nash equilibrium is the key concept.",
+    f: "What's a Nash equilibrium? · Cooperative vs non-cooperative games? · Why did Norway's 1990 deregulation make games relevant?",
+    x: "L03 (consumer side of the same market) · L08 (P2P markets need coordination)" },
+  { t: "L04", k: "Define", s: "general",
+    q: "Nash equilibrium — define it, and give a one-line intuition.",
+    a: "A state where no player can improve their payoff by unilaterally changing strategy, given others' strategies. Stable point because each is already best-responding. Doesn't have to be efficient — in Prisoner's Dilemma both defecting is NE, but cooperation is better overall.",
+    f: "Pure vs mixed strategies? · When is NE Pareto-inefficient? · How is it computed in 2×2 games?",
+    x: "L03 (game-theoretic DSM, Mohsenian-Rad ref in syllabus)" },
+  { t: "L04", k: "Mechanism", s: "general",
+    q: "How does Nord Pool's day-ahead market clear?",
+    a: "Producers submit ascending ask curves, buyers descending bid curves. Auction sorts by merit order, walks until they intersect — that's the uniform clearing price for that hour. Everyone who cleared gets paid the same price. Done for each of 24 hours, 12:00 daily for tomorrow.",
+    f: "Why uniform price not pay-as-bid? · What stops producer gouging? · How does the intraday market relate?",
+    x: "L03 (consumer side: RTP = pass-through of this price)" },
+  { t: "L04", k: "Compare", s: "general",
+    q: "Cournot vs Bertrand competition — what's the difference?",
+    a: "Cournot: firms compete on quantity, market sets price (models electricity generators choosing capacity). Bertrand: firms compete on price, customers pick lowest. Electricity is mostly Cournot-like in day-ahead.",
+    f: "Why is electricity Cournot-like? · What does the Nash equilibrium look like in each? · When does each model break down?",
+    x: "L08 (decentralised markets without auction)" },
+  { t: "L04", k: "Critique", s: "general",
+    q: "Why doesn't a price-taking retailer enable producer gouging under Elspot?",
+    a: "Uniform-price merit-order auction: producers bidding above clearing price simply don't clear → earn zero. Hard price cap. Cross-border coupling brings in cheaper foreign supply. Most volume hedged via PPAs anyway. ACER/REMIT regulators monitor.",
+    f: "What is REMIT? · How does cross-border coupling work? · Why are PPAs important?",
+    x: "L03 (consumer pricing structure)" },
+  { t: "L04", k: "Connect", s: "general",
+    q: "Multiple Nash equilibria can be unfair, and the mixed NE is fair but inefficient. What does this tell us about NE as a solution concept?",
+    a: "NE is descriptive, not normative — guarantees stability, not efficiency. In repeated play or with communication, players can reach Pareto-better outcomes (alternating, correlated equilibria). Pure game theory alone can't pick 'the' equilibrium; resolution needs repetition, regulation, or coordination.",
+    f: "What's a correlated equilibrium? · How does the Prisoner's Dilemma show this? · Why does mixed strategy add fairness?",
+    x: "L08 (smart contracts as coordination mechanism)" },
+
+  // L05 ===================================================================
+  { t: "L05", k: "Open", s: "general",
+    q: "What's a green data centre, and what metrics do we use to measure efficiency?",
+    a: "A DC that minimises environmental impact via efficient hardware, renewable energy, and advanced cooling. Two main metrics: PUE (power overhead) and DCeP (useful work per kWh). Nordic DCs ~1.1 PUE vs global ~1.5.",
+    f: "Define PUE precisely · What is DCeP? · What's heat reuse and why does it matter?",
+    x: "L01 (second direction of EI) · L06 (cloud workload placement)" },
+  { t: "L05", k: "Define", s: "general",
+    q: "PUE — what does it measure and what counts as a good value?",
+    a: "PUE = Total Facility Energy / IT Equipment Energy. 1.0 = theoretical perfect, 1.5 = 50% overhead on cooling/conversion/lighting. Best-in-class Nordic ~1.1. Lower is better.",
+    f: "Why can't PUE be below 1.0? · What dominates the gap to 1.0 typically? · How does it relate to ERF?",
+    x: "L06 (cloud providers compete on PUE)" },
+  { t: "L05", k: "Mechanism", s: "general",
+    q: "Why does Nordic free cooling drop PUE so much?",
+    a: "Outside air or fjord water is cold enough most of the year to absorb DC heat without mechanical chillers. Chiller energy is the biggest non-IT load in temperate DCs — removing it drops PUE from ~1.5 to ~1.1.",
+    f: "Why does free cooling fail at high ambient temperatures? · Why fjord water specifically? · What other geographies have this advantage?",
+    x: "L06 (geographic load balancing)" },
+  { t: "L05", k: "Connect", s: "general",
+    q: "What are 'wind-driven clouds', and how does this tie to forecasting?",
+    a: "Energy-aware workload scheduler shapes DC compute to match wind availability — pack jobs when wind scarce, batch + scale up when abundant. Needs accurate short-term wind forecasting (L09–L11 methods).",
+    f: "Why not just use grid power? · How does this help renewable integration? · What kinds of jobs suit this scheduling?",
+    x: "L01 (canonical second-direction example) · L09–L11 (forecasting methods)" },
+  { t: "L05", k: "Critique", s: "general",
+    q: "Heat reuse is the biggest sustainability lever in Nordic DCs — why is it hard?",
+    a: "Temperature mismatch (DC waste heat ~25°C, district heating wants 60–80°C). Co-location needed (pipes lose heat fast). Demand matching (DC heat constant 24/7, industrial consumers seasonal). Counterparty risk for long contracts.",
+    f: "How do heat pumps help bridge the temperature gap? · What industries can use 25°C water directly? · Why does counterparty risk dominate?",
+    x: "L01 (energy applied to ICT framing)" },
+
+  // L06 ===================================================================
+  { t: "L06", k: "Open", s: "general",
+    q: "Walk me through cloud, fog, and edge computing.",
+    a: "Edge: compute at the data source, low latency, limited power. Fog: intermediate layer near edge, more compute, aggregates and pre-processes. Cloud: centralised, unlimited compute, far. Smart-meter example: meter = edge, neighbourhood concentrator = fog, utility DC = cloud.",
+    f: "Why introduce fog at all? · When are edge/fog/cloud assignments relative not absolute? · How do roles change per device?",
+    x: "L02 (NAN ≈ fog) · L07 (fog as MITM target)" },
+  { t: "L06", k: "Define", s: "general",
+    q: "What does NIST 5-4-3 stand for in cloud computing?",
+    a: "5 essential characteristics (on-demand self-service, broad network access, resource pooling, rapid elasticity, measured service). 4 deployment models (public, private, hybrid, community). 3 service models (SaaS, PaaS, IaaS).",
+    f: "Why does multi-tenancy matter for cloud economics? · Where do PaaS examples fit? · How does private cloud differ from public+VPC?",
+    x: "L05 (PUE matters more in multi-tenant)" },
+  { t: "L06", k: "Mechanism", s: "general",
+    q: "Why does fog computing exist between edge and cloud — what specific problems does it solve?",
+    a: "Cloud has high latency + bandwidth cost; edge has too little compute. Fog: low latency, moderate compute, near the user. Solves: real-time control (<50 ms), bandwidth saving on sensor streams, offline operation, and keeping privacy-sensitive data local.",
+    f: "When is fog NOT justified? · How does fog handle aggregation? · What is computation offloading?",
+    x: "L02 (NAN = fog instance) · L07 (privacy-preserving local processing)" },
+  { t: "L06", k: "Compare", s: "general",
+    q: "Public cloud + VPC vs private cloud — what's still shared, and why does it matter?",
+    a: "VPC isolates at network and identity layers (own subnets, IAM). But hardware, hypervisor, and network fabric are still multi-tenant. Private cloud (Outposts, Dedicated Hosts) is single-tenant hardware — needed for side-channel-attack-resistant or regulatorily-isolated workloads.",
+    f: "What's a side-channel attack? · Which regulators require single-tenant? · What's a VPC?",
+    x: "L07 (multi-tenant = attack surface)" },
+  { t: "L06", k: "Connect", s: "general",
+    q: "Edge / fog / cloud roles are relative, not absolute. Give an example.",
+    a: "A device's role depends on which data flow you're looking at. A smartwatch is edge for its own GPS/HR but fog for a connected chest strap. A smart meter is edge from utility's view but fog relative to per-circuit sub-meters in the building.",
+    f: "Why does this matter for system design? · How would you decide where to put compute? · Does this apply to security?",
+    x: "L02 (smart-meter aggregation hierarchy)" },
+  { t: "L06", k: "Critique", s: "general",
+    q: "When is fog computing NOT justified, and you should just use cloud?",
+    a: "When data is small + latency-tolerant + non-sensitive. Fog adds operational complexity (extra tier, software updates, security perimeter). For batch analytics, simple IoT logging, dashboards — cloud-only is simpler and cheaper.",
+    f: "What latency budget matters? · How does cost of bandwidth play in? · Why is privacy a fog argument?",
+    x: "L05 (when to centralise compute)" },
+
+  // L07 ===================================================================
+  { t: "L07", k: "Open", s: "general",
+    q: "Tell me about smart-grid security. What's the CIA triad, and what's the grid's priority?",
+    a: "CIA = Confidentiality (no leakage), Integrity (no tampering), Availability (no DoS). Grid prioritises Availability and Integrity over Confidentiality — outage costs lives, tampered metering causes fraud/instability. Confidentiality matters but is lower priority.",
+    f: "What's a DoS attack? · Where does GDPR enter the picture? · Why is integrity such a big concern for billing?",
+    x: "L02 (more endpoints = more attack surface) · L08 (blockchain for integrity)" },
+  { t: "L07", k: "Define", s: "general",
+    q: "What is a replay attack, and how do we defend against it?",
+    a: "Attacker captures a legitimate message and replays it later to impersonate. Defeated by including a fresh nonce in each message that the receiver checks for uniqueness. Critical for EV charging auth, smart-meter reporting.",
+    f: "What's a nonce technically? · How does this relate to mutual authentication? · Why does symmetric crypto need this?",
+    x: "L01 (EV charging) · L08 (blockchain prevents replay differently)" },
+  { t: "L07", k: "Mechanism", s: "general",
+    q: "How does mutual authentication close the gap left by one-way auth with a shared key?",
+    a: "One-way: EV proves ID to station, station never proves to EV — rogue station can extract responses. Mutual: station must prove knowledge of K over the EV's nonce first, before EV reveals its MAC. Both nonces + direction tag prevents reflection attacks.",
+    f: "Why is one-way auth vulnerable to MITM? · What is reflection attack? · How does ISO 15118 use this?",
+    x: "L01 (EV Plug-and-Charge)" },
+  { t: "L07", k: "Compare", s: "general",
+    q: "Trusted Third Party vs additive secret sharing for privacy-preserving aggregation.",
+    a: "TTP: an intermediary anonymises/aggregates before utility sees it. Simple but shifts trust — you still need to trust the TTP. Additive secret sharing: meters add random masks that cancel in the sum. No single party sees raw data; no trusted authority needed.",
+    f: "What if a TTP gets compromised? · How does homomorphic encryption fit in? · What's the cost overhead of secret sharing?",
+    x: "L08 (cryptographic > organisational trust)" },
+  { t: "L07", k: "Connect", s: "general",
+    q: "Plug-and-Charge MITM with registered Vehicle ID — describe the attack.",
+    a: "Stolen car eavesdrops a legitimate car's Vehicle ID transmission to the station, replays it from itself, gets charged to the legit owner's account. One-way auth (just Vehicle ID, no challenge-response) makes the message trivially replayable. Fixed by ISO 15118 mutual TLS with per-car certificates.",
+    f: "Why doesn't TLS alone solve this? · What's stored in the car's TPM? · How does the backend manage certs?",
+    x: "L08 (could blockchain track charging records?)" },
+  { t: "L07", k: "Critique", s: "general",
+    q: "Why is fine-grained smart-meter data a privacy issue, and what does GDPR require?",
+    a: "Sub-minute consumption reveals appliance signatures: when you sleep, shower, watch TV, are home. GDPR requires explicit consent, purpose limitation, minimal collection, data portability, right to erasure. Drives edge processing and pseudonymisation.",
+    f: "What's a load signature? · How does aggregation help privacy? · Where does Norwegian law specifically constrain this?",
+    x: "L02 (smart meter as data source) · L06 (fog for local processing)" },
+
+  // L08 ===================================================================
+  { t: "L08", k: "Open", s: "general",
+    q: "What is blockchain, and when is it actually the right tool for energy?",
+    a: "Decentralised, append-only ledger of transactions among parties who don't trust each other and have no common authority. Three preconditions: (1) distributed environment, (2) mutual non-trust, (3) transactions to record. Miss any → use a regular database.",
+    f: "Walk through the 6-step workflow · What are the three failure modes? · Where in the grid does this fit?",
+    x: "L07 (replaces TTP) · L02 (HAN doesn't need it, NAN/WAN does)" },
+  { t: "L08", k: "Mechanism", s: "general",
+    q: "Walk through what happens when Alice pays Bob on a blockchain — at a high level.",
+    a: "(1) Alice signs tx + broadcasts. (2) Miners pile pending txs into candidate blocks + run consensus. (3) Winner broadcasts the block. (4) All other nodes validate. (5) Block appended via prev-hash. (6) Tx finalised after a few confirmations. Each step replaces a thing a bank would do.",
+    f: "What's consensus? · Why hash-chaining for tampering? · What does 'confirmation' mean?",
+    x: "L07 (replaces audit trust)" },
+  { t: "L08", k: "Define", s: "general",
+    q: "What's a 51% attack, and how does double-spending work conceptually?",
+    a: "Attacker controls >50% of hashing/staking power, mines a parallel chain in secret. When longer, publishes → longest-chain rule forces switch → recent history erased → original payment vanishes. The blocks are valid, not fake — attack is about which valid history wins.",
+    f: "Why secret mining specifically? · Why isn't this Bitcoin in practice? · How does PoS change the model?",
+    x: "L04 (game theory of mining)" },
+  { t: "L08", k: "Compare", s: "general",
+    q: "Public vs consortium vs private blockchain — when use each?",
+    a: "Public: anyone joins, PoW/PoS, slow + expensive, trustless masses (Bitcoin). Consortium: pre-approved orgs, voting consensus (PBFT/PoA), sub-second finality — used in energy (Energy Web Chain, DINGO). Private: single org, trivial consensus, usually a regular DB suffices.",
+    f: "Why is consortium the energy-sector sweet spot? · What's the trust model in each? · How does throughput differ?",
+    x: "L06 (private cloud has analogous tradeoffs)" },
+  { t: "L08", k: "Connect", s: "general",
+    q: "In EV-to-EV P2P energy trading, what's on-chain vs off-chain — and why?",
+    a: "On-chain: wallet IDs, escrow lock, signed metering attestations, settlement, dispute. Off-chain: discovery, bidding, physical power transfer, wireless coupling, UI. Rule: only trust-critical events touch chain — slow + expensive per tx.",
+    f: "Why is the actual power transfer not on chain? · How do oracles bridge physical world? · What stops a meter from lying?",
+    x: "L01 (EV three-domain framing)" },
+  { t: "L08", k: "Critique", s: "general",
+    q: "When is blockchain the wrong tool? Use the three-precondition test.",
+    a: "If there's a single trusted operator → use a normal DB (faster, cheaper, supports update/delete). If parties already trust each other → blockchain's overhead buys nothing. If there are no transactions to record → not a ledger problem.",
+    f: "Where do 'blockchain for X' pitches usually fail? · What about HAN-level? · Why is energy a good fit at NAN/WAN level?",
+    x: "L02 (HAN trust is high → no blockchain)" },
+
+  // L09 ===================================================================
+  { t: "L09", k: "Open", s: "general",
+    q: "Why is ML essential for renewable energy forecasting?",
+    a: "Wind/solar are weather-dependent and variable. Without good forecasts, operators must keep expensive spinning reserves. ML captures complex non-linear relationships between weather and power output. Classical: LR, kNN, SVR, ANN. Deep: RNN/LSTM (L10–L11).",
+    f: "Why is a percentage of forecast error worth real money? · Which is the dominant method in practice? · Where do foundation models fit now?",
+    x: "L04 (forecast value in bidding) · L11 (time-series specifics)" },
+  { t: "L09", k: "Define", s: "general",
+    q: "Linear regression vs Support Vector Regression — what's the conceptual difference?",
+    a: "LR fits a straight line by minimising squared error; closed-form, fast, assumes linearity. SVR uses ε-insensitive loss + kernel trick (e.g. RBF) to implicitly map to high-dim space, capturing non-linearity. Convex QP; slower at scale.",
+    f: "What is the kernel trick? · When does each fit better? · How do we choose ε in SVR?",
+    x: "L10 (deep version of non-linear fitting)" },
+  { t: "L09", k: "Mechanism", s: "general",
+    q: "How does SVR with an RBF kernel capture non-linearity without explicit polynomial features?",
+    a: "Kernel trick: K(x, x') = exp(−γ‖x−x'‖²) computes inner products in implicit infinite-dim feature space. SVR fits ŷ = Σ α_i K(x_i, x) + b — non-linear in x but linear in α. Never compute polynomial features explicitly; kernel does it implicitly.",
+    f: "Why is this convex? · What does γ control? · Why don't we always use RBF over LR?",
+    x: "L10 (ANN is the deep alternative for non-linearity)" },
+  { t: "L09", k: "Compare", s: "general",
+    q: "When does each of LR / kNN / SVR / ANN win in energy forecasting?",
+    a: "LR: near-linear or scarce data. kNN: smooth local manifolds with enough data. SVR: non-linear but moderate dataset (kernels expensive at scale). ANN: large data with complex interactions. On wind-speed → power they're often within 1–3% — the curve is mostly capturable by all.",
+    f: "Why don't they differ more? · When does non-linearity matter most? · What's the practical winner in industry?",
+    x: "L11 (same answer: hard to beat persistence)" },
+  { t: "L09", k: "Connect", s: "general",
+    q: "Why must time-series cross-validation be walk-forward, not random?",
+    a: "Random split leaks the future into training via autocorrelation — P_t ≈ P_{t±1}, so a random test point sits next to a training neighbour. Model memorises rather than generalises. Walk-forward: train on [1..t], predict t+1, slide. Respects temporal causality.",
+    f: "What's autocorrelation? · How would random split mislead RMSE? · How do you choose the window size?",
+    x: "A2 (the assignment enforces this)" },
+  { t: "L09", k: "Critique", s: "general",
+    q: "When is RMSE the wrong error metric for energy forecasting?",
+    a: "RMSE penalises large errors disproportionately — right when large errors are disproportionately expensive (spinning reserve, market penalties). Wrong when outliers are measurement noise (use MAE / Huber). Always report both.",
+    f: "What is MAE? · What is Huber loss? · When does cost-asymmetry matter most?",
+    x: "L04 (market penalty asymmetry)" },
+
+  // L10 ===================================================================
+  { t: "L10", k: "Open", s: "general",
+    q: "Explain neural networks and backprop at a high level.",
+    a: "NN = stacked layers of linear transforms + non-linear activations. Forward pass: compute predictions through layers. Backward pass: use chain rule to compute gradient of error w.r.t. each weight, going output → input. Update weights by α · ∂E/∂w. Iterate until convergence.",
+    f: "What does an activation function do? · Why do we need a non-linearity? · What stops training?",
+    x: "L09 (ANN as classical ML)" },
+  { t: "L10", k: "Mechanism", s: "general",
+    q: "Why does the chain rule for a hidden-layer weight have a longer expression than an output-layer weight?",
+    a: "Output weight w_out: short chain — error → output activation → output sum → w_out. Hidden weight w_hidden: same start + extra factors going further back: output sum → hidden activation → hidden sum → w_hidden. Each hidden layer adds two factors. Deep nets → many factors → vanishing gradients with sigmoid.",
+    f: "What is vanishing gradient? · How does ReLU help? · Why is this the bottleneck for depth?",
+    x: "L09 (kernel methods avoid this issue)" },
+  { t: "L10", k: "Compare", s: "general",
+    q: "Sigmoid vs ReLU activation — when does each help?",
+    a: "Sigmoid: smooth, bounded [0,1], biologically motivated. Saturates → vanishing gradient in deep nets. Still used at output for binary classification. ReLU: max(0, x), no positive saturation, fast, sparse activations. Dominates in modern deep nets.",
+    f: "What variants of ReLU exist? · Why does saturation kill gradients? · What's the historical context?",
+    x: "L11 (RNNs typically use tanh, similar issue)" },
+  { t: "L10", k: "Connect", s: "general",
+    q: "Why didn't deep learning beat simpler models on the wind-power dataset?",
+    a: "Small data (~2000 train rows in lecturer's version), limited tuning, and signal is mostly autocorrelation that LR captures. Not a DL failure — wrong tool for size + nature of signal. Lesson: more complex ≠ better when signal is mostly linear.",
+    f: "When does DL win on time series? · What architectural choices would help? · Why is it autocorrelation-dominated?",
+    x: "L11 (same conclusion) · A2 (we ran it ourselves)" },
+  { t: "L10", k: "Critique", s: "general",
+    q: "The assignment uses |E_t − E_{t-1}| < ε as the stopping condition. What's wrong with this in real ML?",
+    a: "It uses training error, which keeps dropping past the point of overfitting. Real systems use early stopping on a validation set. The assignment dodges this for simplicity. Real risk: you converge in training while generalising poorly.",
+    f: "What is overfitting? · How does early stopping work in practice? · Why doesn't training error converge to test error?",
+    x: "L09 (CV strategies)" },
+  { t: "L10", k: "LA", s: "general",
+    q: "In the forward pass h = σ(W x + b), what determines the shape of W?",
+    a: "W has shape (hidden_dim × input_dim). For 2 inputs and 2 hidden nodes: W is 2×2. b is hidden_dim. One matrix-vector multiply per layer; non-linearity element-wise after. Output W' shape (output_dim × hidden_dim).",
+    f: "What does each row of W represent? · How does this stack to deep nets? · How many parameters total?",
+    x: "L09 (β in LR is the analogue)" },
+
+  // L11 ===================================================================
+  { t: "L11", k: "Open", s: "general",
+    q: "What's time-series prediction, and why is it different from standard regression?",
+    a: "Predicting future values from past — possibly with exogenous inputs. Different because: (1) samples aren't IID, they're temporally ordered; (2) autocorrelation dominates short horizons; (3) train/test split must respect time; (4) persistence baseline is shockingly hard to beat.",
+    f: "What does the persistence baseline do? · When does autocorrelation help most? · Why can't we just shuffle?",
+    x: "L09 (the same family of methods)" },
+  { t: "L11", k: "Define", s: "general",
+    q: "What's the persistence baseline, and why is it the floor of forecasting performance?",
+    a: "ŷ_t = y_{t−1}. No model, no training. For autocorrelation-dominated signals like wind power, the previous hour is already very close to the right answer. Any method that doesn't beat persistence is useless. Always report it.",
+    f: "How close to persistence do real models get? · What changes at longer horizons? · How does persistence interact with ramp events?",
+    x: "L09 (the simplest classical method)" },
+  { t: "L11", k: "Mechanism", s: "general",
+    q: "How does an RNN encode time order differently than an MLP with a sliding window?",
+    a: "MLP: input window treated as k independent features, no notion of order. RNN: same window fed sequentially through hidden state h_t = σ(Wx_t + Uh_{t−1} + b). Order matters; model can in principle remember arbitrarily far back via h.",
+    f: "What's a recurrent connection? · What's vanishing gradient over time? · What does LSTM add?",
+    x: "L10 (chain rule over time = BPTT)" },
+  { t: "L11", k: "Compare", s: "general",
+    q: "On the lecturer's univariate dataset, LR / MLR / ANN / RNN are all within ~2% RMSE. Why so close?",
+    a: "All asymptotically computing 'P_t ≈ P_{t−1}'. Strong autocorrelation means any model with a recent lag captures most of the signal. Differences are noise around the irreducible-noise floor. Confirms: more complex ≠ better when signal is mostly linear.",
+    f: "Where do they actually differ? · When would the RNN win? · What's the irreducible noise floor?",
+    x: "L10 (same lesson, different angle)" },
+  { t: "L11", k: "Connect", s: "general",
+    q: "When would an RNN actually win over LR?",
+    a: "Long sequences (>10k rows), multi-step output, complex exogenous interactions, multi-modal seasonality. Production wind forecasting uses LSTMs over much richer inputs (NWP + SCADA + calendar) for longer horizons. The lecturer's setup deliberately doesn't have these.",
+    f: "What's NWP? · How does seasonality affect this? · Why is production different?",
+    x: "L05 (wind-driven clouds need short-horizon forecasts)" },
+  { t: "L11", k: "Critique", s: "general",
+    q: "How do foundation models (like Chronos) compare to a trained RNN on this kind of signal?",
+    a: "Comparable accuracy without training. Trained on a broad time-series corpus, generalises zero-shot. Wins when: no training data, cold-start sites, ensemble diversity. Slight loss when signal is very smooth — tokenisation hurts precision. Adding hour-of-day deseasonalisation helps.",
+    f: "What is a foundation model? · How does zero-shot work for time series? · Could you use it for production?",
+    x: "L09 (alternative to bespoke models)" },
+
+  // A1 ===================================================================
+  { t: "A1", k: "Open", s: "general",
+    q: "What was Assignment 1 about? Briefly describe the problem.",
+    a: "Intelligent appliance scheduling in a household over 24 hours. Some appliances non-shiftable, others shiftable within a window. Goal: minimise daily energy cost using a price signal (ToU in Task 1, RTP in 2–4). Tasks 1–4 build complexity: one household → many → with peak-shaving. LP formulation.",
+    f: "What's an LP? · Why is RTP harder than ToU? · What does Task 4 add?",
+    x: "L03 (DR theory) · L04 (price source)" },
+  { t: "A1", k: "Compute", s: "general",
+    q: "Task 1 has a few appliances and 24 hours — what does the LP look like at a high level?",
+    a: "Decision variables x_{i,h} = energy used by appliance i in hour h. Objective: minimise total cost (price × energy summed over appliances and hours). Constraints: daily energy delivered, hourly capacity, zero outside the appliance's allowed window.",
+    f: "How many decision variables for 3 appliances over 24 hours? · Why is it LP, not MILP? · Where does ToU show up in the objective?",
+    x: "L03 (DR formulation)" },
+  { t: "A1", k: "Compare", s: "general",
+    q: "Task 1 (ToU) vs Task 2 (RTP) — what changes in the optimal schedule shape?",
+    a: "ToU: only the peak window matters, every off-peak hour is equally cheap → LP indifferent → schedule uniform across off-peak. RTP: every hour has a different price → load concentrates in cheapest few hours → creates a new synthetic peak.",
+    f: "Why does RTP create a synthetic peak? · How does Task 4 solve this? · Which gives lower cost?",
+    x: "L03 (avalanche effect)" },
+  { t: "A1", k: "Connect", s: "general",
+    q: "Task 4's peak-load variable — what real Norwegian tariff feature does this model?",
+    a: "Norwegian nettleie's kapasitetsledd (capacity step) — NVE-mandated since July 2022. DSOs charge based on your highest hourly load that month, in stepped tiers. Task 4's λ·L penalty is the simulation. Your LP is what a real HEMS in 2026 should be doing.",
+    f: "What is nettleie? · Why did NVE mandate this? · How does λ trade off cost vs peak?",
+    x: "L03 (peak shaving as DR goal)" },
+  { t: "A1", k: "Critique", s: "general",
+    q: "Why is 'run everything at 02:00' wrong even though it's LP-optimal under ToU?",
+    a: "Peak load on the household meter trips fuses. Noise (laundry at 02:00). Avalanche effect — if every household does this, neighbourhood transformer sees a synthetic peak at 02:00, defeating the point of DR. Solutions: stagger/randomise, or add peak constraint (Task 4).",
+    f: "What's the rebound peak problem? · How does randomisation help? · Why does Task 4 fix it formally?",
+    x: "L03 (DR design considerations)" },
+  { t: "A1", k: "LA", s: "general",
+    q: "When we add a peak-load variable L in Task 4, is the problem still LP?",
+    a: "Yes. L is a single continuous variable. The new constraint total_h ≤ L is linear in x and L. The objective cost + λ·L is linear. So we're still LP, polynomial time. Would become MILP only if we required integer start times for appliances.",
+    f: "What would make it MILP? · How big does λ need to be? · Is there a closed-form penalty equivalent?",
+    x: "L03 (NP-hard formulations)" },
+
+  // A2 ===================================================================
+  { t: "A2", k: "Open", s: "general",
+    q: "What was Assignment 2 about? Briefly walk through the four tasks.",
+    a: "Wind power forecasting for Nov 2013 from a real Australian wind farm + ECMWF weather data. Task 1: 4 ML methods using only wind speed. Task 2: add wind direction via MLR. Task 3: pure time-series, no weather (LR, SVR, ANN, RNN). Task 4: backprop on a small NN with sigmoid + MSE — mathematical derivation + programming.",
+    f: "Why predict Nov 2013 specifically? · Why is normalised power used? · What's the metric?",
+    x: "L09–L11 (the methods used)" },
+  { t: "A2", k: "Define", s: "general",
+    q: "What is walk-forward validation, and why is random train/test split wrong for time series?",
+    a: "Walk-forward: train on [1..t], test at t+1, slide. Random split leaks the future via autocorrelation — adjacent points are nearly identical, so a random test point sits next to a training neighbour. RMSE looks great in cross-val, collapses in production.",
+    f: "How do you implement walk-forward in practice? · Where does the autocorrelation come from? · How does this affect Task 1's setup?",
+    x: "L09 (general principle)" },
+  { t: "A2", k: "Mechanism", s: "general",
+    q: "At a high level, what do the forward and backward passes do in a neural network?",
+    a: "Forward: take inputs, compute hidden activations (sigmoid of weighted sums), compute output, compute error. Backward: chain-rule the error back to each weight to get ∂E/∂w_i, then update via gradient descent. Repeat until convergence.",
+    f: "Why sigmoid specifically? · What's the chain rule intuition for hidden weights? · What's the stopping condition?",
+    x: "L10 (the theory)" },
+  { t: "A2", k: "Compare", s: "general",
+    q: "Task 1 (weather only) vs Task 3 (past power only) — which got lower RMSE and why?",
+    a: "Task 3 wins (much lower RMSE). Surprising at first, but principled: rolling 1-step uses real revealed past power, which is ~0.95 correlated with current power. Persistence-dominated. Task 1 has weather but no autoregressive signal, so weather forecast error dominates. Production uses both.",
+    f: "Why does weather underperform alone? · Why does production combine both? · Where does the irreducible noise floor sit?",
+    x: "L11 (persistence is the floor)" },
+  { t: "A2", k: "Connect", s: "general",
+    q: "Why does production wind forecasting need both weather AND past power?",
+    a: "Persistence dominates short horizons (1–6h). Weather dominates longer (24h+). Combined gives smooth performance across horizons. Different error modes: persistence misses ramps, weather has forecast bias. Stacking exploits the diversity. SOTA uses NWP + ML downscaling + ensemble.",
+    f: "What's NWP? · What's ML downscaling? · How does ensembling improve over individual models?",
+    x: "L11 (foundation models in this space)" },
+  { t: "A2", k: "Critique", s: "general",
+    q: "Why didn't the RNN win Task 3?",
+    a: "Three reasons: (1) small data (~2000 train rows in lecturer's version), (2) limited tuning — single hidden layer, fixed hyperparameters, (3) signal is mostly autocorrelation that LR already captures. Not an RNN failure; an undersized/undertuned use case.",
+    f: "What would make the RNN win? · Why is small-data problematic? · How could you tune it?",
+    x: "L10 (same conclusion)" },
+  { t: "A2", k: "LA", s: "general",
+    q: "Why does RMSE square the error rather than just take absolute value?",
+    a: "Three reasons: (1) smooth + convex → closed-form solution and easy optimisation, (2) maximum likelihood under Gaussian noise (CLT-justified), (3) penalises large errors disproportionately — matches cost-asymmetric energy forecasting. Cost: outlier sensitivity; trade-off is MAE/Huber.",
+    f: "When is MAE better? · What is Huber loss? · Why is squaring 'right' for the gradient calculation?",
+    x: "L09 (model evaluation context)" },
+];
+
+
+const TOPICS = [...new Set(Q.map(q => q.t))];
+const TYPES  = [...new Set(Q.map(q => q.k))];
+
+// ---------- state + storage ----------
+const LS_KEY = "in5410-drill-v2";
+const initial = { topicFilter: TOPICS, typeFilter: TYPES, session: [] };
+let state;
+try {
+  state = Object.assign({}, initial, JSON.parse(localStorage.getItem(LS_KEY) || "{}"));
+  state.topicFilter = new Set(state.topicFilter || TOPICS);
+  state.typeFilter  = new Set(state.typeFilter || TYPES);
+  state.session = state.session || [];
+} catch (e) {
+  state = { topicFilter: new Set(TOPICS), typeFilter: new Set(TYPES), session: [] };
+}
+let current = null;
+let revealed = false;
+
+function persist() {
+  localStorage.setItem(LS_KEY, JSON.stringify({
+    topicFilter: [...state.topicFilter],
+    typeFilter:  [...state.typeFilter],
+    session:     state.session.slice(-20),
+  }));
+}
+
+// ---------- smart draw ----------
+function qId(q) { return q.t + "|" + q.k + "|" + q.q.slice(0, 40); }
+function pick() {
+  const pool = Q.filter(q => state.topicFilter.has(q.t) && state.typeFilter.has(q.k));
+  if (!pool.length) return null;
+  const recent = new Set(state.session.slice(-5).map(s => s.id));
+  // Avoid recent 5; uniform random otherwise
+  const fresh = pool.filter(q => !recent.has(qId(q)));
+  const choose = fresh.length ? fresh : pool;
+  return choose[Math.floor(Math.random() * choose.length)];
+}
+
+// ---------- render ----------
+function renderHero() {
+  const heroEl = document.getElementById("hero");
+  const topicEl = document.getElementById("hero-topic");
+  const typeEl = document.getElementById("hero-qtype");
+  const qEl = document.getElementById("hero-q");
+  const aEl = document.getElementById("hero-a");
+  if (!current) return;
+  heroEl.classList.add("dim");
+  setTimeout(() => {
+    topicEl.textContent = current.t;
+    typeEl.textContent = current.k;
+    typeEl.className = "qtype t-" + current.k;
+    qEl.innerHTML = current.q;
+    aEl.innerHTML = current.a;
+    aEl.classList.add("hidden");
+    revealed = false;
+    heroEl.classList.remove("dim");
+  }, 100);
+}
+
+
+function renderFilters() {
+  document.getElementById("topic-filter").innerHTML = TOPICS.map(t =>
+    `<span class="chip ${state.topicFilter.has(t) ? "on" : ""}" data-topic="${t}">${t}</span>`).join("");
+  document.getElementById("type-filter").innerHTML = TYPES.map(k =>
+    `<span class="chip ${state.typeFilter.has(k) ? "on" : ""}" data-type="${k}">${k}</span>`).join("");
+  document.querySelectorAll("[data-topic]").forEach(el => {
+    el.onclick = () => {
+      const t = el.dataset.topic;
+      state.topicFilter.has(t) ? state.topicFilter.delete(t) : state.topicFilter.add(t);
+      persist(); renderFilters();
+    };
+  });
+  document.querySelectorAll("[data-type]").forEach(el => {
+    el.onclick = () => {
+      const k = el.dataset.type;
+      state.typeFilter.has(k) ? state.typeFilter.delete(k) : state.typeFilter.add(k);
+      persist(); renderFilters();
+    };
+  });
+}
+document.querySelectorAll(".filter-quick button").forEach(b => {
+  b.onclick = () => {
+    const dim = b.dataset.filter;
+    const all = b.dataset.action === "all";
+    const fn = dim === "topic" ? "topicFilter" : "typeFilter";
+    const src = dim === "topic" ? TOPICS : TYPES;
+    state[fn] = new Set(all ? src : []);
+    persist(); renderFilters();
+  };
+});
+
+// ---------- actions ----------
+function draw() {
+  const q = pick();
+  if (!q) return;
+  current = q;
+  const id = qId(q);
+  persist();
+  renderHero();
+}
+function reveal() {
+  if (!current || revealed) return;
+  document.getElementById("hero-a").classList.remove("hidden");
+  revealed = true;
+}
+
+document.getElementById("btn-draw").onclick = draw;
+document.getElementById("btn-reveal").onclick = reveal;
+
+// ---------- speak timer ----------
+let speakTimer = null, speakLeft = 0;
+function speakTick() {
+  speakLeft--;
+  const el = document.getElementById("speak-display");
+  const m = Math.floor(Math.abs(speakLeft) / 60), s = Math.abs(speakLeft) % 60;
+  el.textContent = (speakLeft < 0 ? "−" : "") + m + ":" + String(s).padStart(2, "0");
+  el.className = "running" + (speakLeft < 0 ? " over" : "");
+  if (speakLeft === 0 && typeof Audio !== "undefined") {
+    try { new Audio("data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQAAAAA=").play(); } catch(e){}
+  }
+}
+function startSpeak() {
+  clearInterval(speakTimer);
+  speakLeft = 90;
+  speakTick();
+  speakTimer = setInterval(speakTick, 1000);
+}
+document.getElementById("btn-speak90").onclick = startSpeak;
+
+
+
+
+// ---------- segmented sub-mode toggle (single vs mock) ----------
+function setSubMode(mode) {
+  const isMock = mode === "mock";
+  document.getElementById("seg-single").classList.toggle("active", !isMock);
+  document.getElementById("seg-mock").classList.toggle("active", isMock);
+  document.getElementById("hero").classList.toggle("hidden", isMock);
+  document.getElementById("filters").classList.toggle("hidden", isMock);
+  document.querySelector(".top-controls").classList.toggle("hidden", isMock);
+  document.getElementById("mock-panel").classList.toggle("hidden", !isMock);
+}
+document.getElementById("seg-single").onclick = () => setSubMode("single");
+document.getElementById("seg-mock").onclick   = () => setSubMode("mock");
+
+// ---------- keyboard ----------
+document.addEventListener("keydown", e => {
+  if (e.target.tagName === "INPUT" || e.target.tagName === "TEXTAREA") return;
+  if (document.getElementById("view-single").classList.contains("hidden")) return;
+  if (e.key === " ") { e.preventDefault(); draw(); }
+  else if (e.key === "r" || e.key === "R") { e.preventDefault(); reveal(); }
+  else if (e.key === "s" || e.key === "S") startSpeak();
+});
+
+// ---------- mock mode ----------
+let mockTimer = null;
+let mockSeconds = 0;
+
+function setStage(text) { document.getElementById("mock-stage").textContent = text; }
+function fmt(s) {
+  const m = Math.floor(Math.abs(s) / 60), r = Math.abs(s) % 60;
+  return (s < 0 ? "−" : "") + String(m).padStart(2, "0") + ":" + String(r).padStart(2, "0");
+}
+function mockTick() {
+  mockSeconds--;
+  const el = document.getElementById("mock-timer");
+  el.textContent = fmt(mockSeconds);
+  el.className = "timer" + (mockSeconds < 0 ? " over" : mockSeconds < 60 ? " warn" : "");
+}
+function drawMockSet() {
+  const groups = [
+    ["L01","L02"], ["L03","L04"],
+    ["L05","L06"], ["L07","L08"],
+    ["L09","L10","L11"], ["A1","A2"],
+  ];
+  const draws = [];
+  for (const g of groups) {
+    const pool = Q.filter(q => g.includes(q.t));
+    if (pool.length) draws.push(pool[Math.floor(Math.random() * pool.length)]);
+  }
+  while (draws.length > 5) draws.splice(Math.floor(Math.random() * draws.length), 1);
+  return draws;
+}
+function renderMockCards(set) {
+  document.getElementById("mock-cards").innerHTML = set.map(q => `
+    <div class="card">
+      <div class="meta">
+        <span class="topic">${q.t}</span>
+        <span class="qtype">${q.k}</span>
+        <span class="scope-pill">${q.s || 'general'}</span>
+      </div>
+      <div class="q">${q.q}</div>
+      <details>
+        <summary>Reveal hint + follow-ups</summary>
+        <div class="answer">
+          <div class="block-label">Hint</div>${q.a}
+          ${q.f ? `<div class="block-label">Follow-ups</div>${q.f}` : ''}
+          ${q.x ? `<div class="block-label">Cross-lecture</div><i>${q.x}</i>` : ''}
+        </div>
+      </details>
+    </div>`).join("");
+}
+document.getElementById("mock-start").onclick = () => {
+  renderMockCards(drawMockSet());
+  mockSeconds = 30 * 60;
+  setStage("📝 prep — write outlines, equations, examples (30:00)");
+  document.getElementById("mock-timer").textContent = fmt(mockSeconds);
+  document.getElementById("mock-start").classList.add("hidden");
+  document.getElementById("mock-deliver").classList.remove("hidden");
+  if (mockTimer) clearInterval(mockTimer);
+  mockTimer = setInterval(mockTick, 1000);
+};
+document.getElementById("mock-deliver").onclick = () => {
+  mockSeconds = 30 * 60;
+  document.getElementById("mock-timer").textContent = fmt(mockSeconds);
+  setStage("🎤 deliver — speak each answer aloud (~5 min each + follow-ups)");
+  document.getElementById("mock-deliver").classList.add("hidden");
+  if (mockTimer) clearInterval(mockTimer);
+  mockTimer = setInterval(mockTick, 1000);
+};
+document.getElementById("mock-reset").onclick = () => {
+  if (mockTimer) clearInterval(mockTimer);
+  mockSeconds = 0;
+  document.getElementById("mock-timer").textContent = "00:00";
+  document.getElementById("mock-timer").className = "timer";
+  document.getElementById("mock-cards").innerHTML = "";
+  document.getElementById("mock-start").classList.remove("hidden");
+  document.getElementById("mock-deliver").classList.add("hidden");
+  setStage("— not started —");
+};
+
+// ---------- browse mode ----------
+function renderAll() {
+  const grouped = {};
+  for (const q of Q) {
+    if (!grouped[q.t]) grouped[q.t] = [];
+    grouped[q.t].push(q);
+  }
+  document.getElementById("all-cards").innerHTML = Object.entries(grouped).map(([t, qs]) =>
+    `<h2>${t} (${qs.length})</h2>` +
+    qs.map(q => `
+      <div class="card">
+        <div class="meta">
+          <span class="topic">${q.t}</span>
+          <span class="qtype">${q.k}</span>
+          <span class="scope-pill">${q.s || 'general'}</span>
+        </div>
+        <div class="q">${q.q}</div>
+        <details>
+          <summary>Show hint + follow-ups</summary>
+          <div class="answer">
+            <div class="block-label">Hint</div>${q.a}
+            ${q.f ? `<div class="block-label">Follow-ups</div>${q.f}` : ''}
+            ${q.x ? `<div class="block-label">Cross-lecture</div><i>${q.x}</i>` : ''}
+          </div>
+        </details>
+      </div>`).join("")
+  ).join("");
+}
+
+// ---------- view toggle ----------
+function setView(v) {
+  document.querySelectorAll("nav button").forEach(b => b.classList.remove("active"));
+  document.getElementById("view-single").classList.add("hidden");
+  document.getElementById("view-mock").classList.add("hidden");
+  document.getElementById("view-all").classList.add("hidden");
+  document.getElementById("mode-" + v).classList.add("active");
+  document.getElementById("view-" + v).classList.remove("hidden");
+  if (v === "all") renderAll();
+}
+document.getElementById("mode-single").onclick = () => setView("single");
+document.getElementById("mode-all").onclick    = () => setView("all");
+
+// ---------- init ----------
+renderFilters();
+draw();
+</script>
+</body>
+</html>
