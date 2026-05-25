@@ -12,4 +12,4 @@ Open `index.html` in any browser — no build step, no dependencies.
 - Keyboard: `space` draw · `r` reveal · `s` speak-timer
 
 ## Live
-[https://hansand02.github.io/IN5410-oral-prep/](https://hansand02.github.io/IN5410-oral-prep/) *(enable GitHub Pages in repo settings → main branch)*
+[https://hansand02.github.io/IN5410-oral-prep/](https://hansand02.github.io/IN5410-oral-prep/)
