@@ -481,7 +481,7 @@ footer kbd {
 <header>
   <h1>IN5410 <span>oral drill</span></h1>
   <nav>
-    <button id="mode-single" class="active">Single Q</button>
+    <button id="mode-single" class="active">Mock oral</button>
     <button id="mode-all">Browse all</button>
   </nav>
 </header>
@@ -489,11 +489,7 @@ footer kbd {
 
 <!-- ============================== SINGLE MODE ============================== -->
 <section id="view-single">
-  <div class="mode-toggle">
-    <button class="seg active" id="seg-single">Single Q</button>
-    <button class="seg" id="seg-mock">Mock oral (30+30)</button>
-  </div>
-<details class="filters" id="filters">
+<details class="filters hidden" id="filters">
     <summary>Filters</summary>
     <div class="filters-body">
       <div class="filter-row">
@@ -515,7 +511,7 @@ footer kbd {
     </div>
   </details>
 
-  <div class="top-controls">
+  <div class="top-controls hidden">
     <button class="primary" id="btn-draw">🎲 Draw new question</button>
     <button class="ghost" id="btn-reveal">Reveal answer · <kbd>R</kbd></button>
     <span class="speak-timer">
@@ -523,7 +519,7 @@ footer kbd {
       <span id="speak-display"></span>
     </span>
   </div>
-  <div class="mock-panel hidden" id="mock-panel">
+  <div class="mock-panel" id="mock-panel">
     <div class="mock-info">
     <strong>Mock oral (30 + 30).</strong> Draws 5 questions from across the syllabus.
     Prep phase: 30 min, pen + paper, write outlines and equations.
@@ -539,7 +535,7 @@ footer kbd {
   </div>
   <div id="mock-cards" class="q-list"></div>
   </div>
-  <div class="hero" id="hero">
+  <div class="hero hidden" id="hero">
     <div class="meta">
       <span class="topic" id="hero-topic">—</span>
       <span class="qtype" id="hero-qtype">—</span>
@@ -972,6 +968,158 @@ const Q = [
     a: "Three reasons: (1) smooth + convex → closed-form solution and easy optimisation, (2) maximum likelihood under Gaussian noise (CLT-justified), (3) penalises large errors disproportionately — matches cost-asymmetric energy forecasting. Cost: outlier sensitivity; trade-off is MAE/Huber.",
     f: "When is MAE better? · What is Huber loss? · Why is squaring 'right' for the gradient calculation?",
     x: "L09 (model evaluation context)" },
+  // ============ SPECIFIC (slide-anchored memory items) ============
+  // L01
+  { t: "L01", k: "Define", s: "specific",
+    q: "Name the 8 Internet of Energy principles.",
+    a: "Energy Sharing, Energy Trading, Energy Mobility, Energy Balance, Energy Security, Energy Transport, Energy QoS, Energy Localization.",
+    f: "Why are these inspired by the Internet? · Which apply to V2G? · Which are hardest to deliver in practice?",
+    x: "L02 (architecture supporting these) · L08 (trading via blockchain)" },
+  { t: "L01", k: "Define", s: "specific",
+    q: "What are the 4 layers in Goebel's Energy Informatics framework (top to bottom)?",
+    a: "Goals (energy efficiency, renewable supply) → Themes (smart energy-saving systems, smart grids) → Use cases (transport, buildings, power systems, DCs, markets, storage) → Foundations (DBs, ML, distributed systems, info security, optimisation, embedded, networking, behavioural IS, economics).",
+    f: "Where do specific course topics fit? · Why is HCI in there? · Why is economics included?",
+    x: "L05/L06 (use cases) · L09–L11 (the ML foundation)" },
+
+  // L02
+  { t: "L02", k: "Define", s: "specific",
+    q: "What does AMI stand for, and what three things does it integrate?",
+    a: "Advanced Metering Infrastructure. Integrates (1) smart meters, (2) communication networks (HAN, NAN, WAN), (3) Meter Data Management System (MDMS).",
+    f: "Why two-way comms specifically? · What does MDMS do? · Which protocols dominate HAN?",
+    x: "L03 (DR depends on AMI) · L07 (smart-meter privacy)" },
+  { t: "L02", k: "Define", s: "specific",
+    q: "Name the 7 NIST domains in the smart-grid conceptual model.",
+    a: "Customers, Markets, Service Providers, Operations (ISO/RTO), Generation (incl. DER), Transmission, Distribution.",
+    f: "Which are power-flow domains vs info-flow? · Who runs each in Norway? · Where does DER fit?",
+    x: "L04 (Markets domain in detail)" },
+
+  // L03
+  { t: "L03", k: "Define", s: "specific",
+    q: "Name the three pricing schemes covered in L03 and describe each in one line.",
+    a: "ToU (Time-of-Use): two/three flat tiers (peak/off-peak). RTP (Real-Time Pricing): hourly variable price, pass-through of Nord Pool spot. IBR (Inclining Block Rate): stepped cost based on volume or peak demand.",
+    f: "Where does each appear in Norway? · Which is hardest for consumers to respond to? · How do they affect DR design?",
+    x: "L04 (RTP traces to Elspot) · A1 (Task 2/4 uses RTP)" },
+  { t: "L03", k: "Define", s: "specific",
+    q: "What is the lecturer's industry DR example, and what's the incentive amount?",
+    a: "Energex in Queensland, Australia: signal receiver installed in air conditioners, utility cycles them remotely during peaks. Participants get rewards up to $400/year.",
+    f: "Why AC specifically? · Why must it be transparent to users? · Why does this not scale to all appliances?",
+    x: "L01 (DR as ICT-for-energy)" },
+
+  // L04
+  { t: "L04", k: "Define", s: "specific",
+    q: "What three things define a game in game theory?",
+    a: "Players (agents), strategies (actions each can take), payoffs (rewards for each strategy combination). Plus optional: rules / game type (cooperative vs non-cooperative).",
+    f: "What's a strategy profile? · How is Nash equilibrium defined formally? · Cooperative vs non-cooperative?",
+    x: "L03 (game-theoretic DSM)" },
+  { t: "L04", k: "Define", s: "specific",
+    q: "What changed in Norway in 1990 that made game theory relevant for the power market?",
+    a: "The Energy Act (Energiloven) of 1990 deregulated the Norwegian electricity market — producers compete on price/quantity, retailers compete for customers, the grid is unbundled. Without deregulation, prices were administrative; now they're strategic outcomes.",
+    f: "What was unbundled? · Who owns the grid vs the generation? · How does Nord Pool fit in?",
+    x: "L02 (Markets domain)" },
+
+  // L05
+  { t: "L05", k: "Define", s: "specific",
+    q: "What's the PUE formula, and what range is typical?",
+    a: "PUE = Total Facility Energy / IT Equipment Energy. Ideal 1.0 (no overhead). World-class Nordic ~1.1. Global average ~1.5. Higher = more overhead spent on cooling, conversion, lighting.",
+    f: "Why can't PUE be less than 1.0? · What dominates the overhead typically? · How does free cooling improve this?",
+    x: "L06 (multi-tenant cloud also reports PUE)" },
+  { t: "L05", k: "Define", s: "specific",
+    q: "Name 4 energy-efficiency metrics for data centers and what each measures.",
+    a: "PUE: total / IT energy. DCeP: useful work per energy unit. WUE: water consumption per IT-kWh. ERF: Energy Reuse Factor — waste heat sold / total energy used.",
+    f: "Which captures sustainability best in Nordic DCs? · Which is hardest to compute honestly? · Why is ERF gaining importance?",
+    x: "L01 (energy applied to ICT)" },
+
+  // L06
+  { t: "L06", k: "Define", s: "specific",
+    q: "Name NIST's 5 essential characteristics of cloud computing.",
+    a: "(1) On-demand self-service, (2) Broad network access, (3) Resource pooling, (4) Rapid elasticity, (5) Measured service.",
+    f: "Which enables multi-tenancy? · Which enables pay-per-use? · Which is the API-driven one?",
+    x: "L05 (resource pooling drives PUE) · L07 (multi-tenancy = attack surface)" },
+  { t: "L06", k: "Define", s: "specific",
+    q: "Name the 3 cloud service models and the 4 deployment models.",
+    a: "Service models: SaaS (use the app), PaaS (deploy code), IaaS (provision VMs). Deployment models: Public, Private, Community, Hybrid.",
+    f: "Where does Vercel fit? · Where does Retool fit? · What's a community cloud?",
+    x: "L02 (NAN is fog-ish, not cloud)" },
+
+  // L07
+  { t: "L07", k: "Define", s: "specific",
+    q: "What does CIA stand for, and in what order does the smart grid prioritise them?",
+    a: "Confidentiality (no unauthorised access), Integrity (no unauthorised modification), Availability (timely access). Smart grid priority: Availability ≥ Integrity > Confidentiality (critical infrastructure: outage costs lives; tampered data causes fraud/instability; consumption data sensitive but not catastrophic if leaked).",
+    f: "Why doesn't confidentiality come first? · What attacks target each? · How does GDPR change the priority?",
+    x: "L08 (blockchain helps integrity)" },
+  { t: "L07", k: "Define", s: "specific",
+    q: "Name three classes of attack and which CIA property each violates.",
+    a: "DoS / DDoS → Availability. Metering tampering or MITM relay → Integrity. Smart-meter eavesdropping / load-signature analysis → Confidentiality.",
+    f: "Which is hardest to defend against? · Which has the highest impact for the grid? · What's a replay attack?",
+    x: "L02 (HAN as attack surface)" },
+
+  // L08
+  { t: "L08", k: "Define", s: "specific",
+    q: "What are the three preconditions for blockchain to be the right tool?",
+    a: "(1) Distributed environment — multiple independent nodes. (2) Mutual non-trust — nodes don't trust each other. (3) Transactions to record — there are events worth logging immutably.",
+    f: "What happens if any is missing? · Why is HAN not a blockchain candidate? · Where does P2P energy fit all three?",
+    x: "L02 (HAN trust is high) · L07 (replaces TTP)" },
+  { t: "L08", k: "Define", s: "specific",
+    q: "Name two consensus mechanisms and one trade-off between them.",
+    a: "Proof of Work (PoW, Bitcoin): nodes solve hash puzzles — energy-intensive but trustless. Proof of Stake (PoS, Ethereum since 2022): nodes weighted by stake — cheap, faster, but capital-favouring. Plus PBFT/PoA in consortium chains: voting-based, sub-second finality.",
+    f: "Why did Ethereum switch from PoW to PoS? · How does PoA work? · Where do consortium chains fit?",
+    x: "L05 (PoW's energy cost is itself a green-DC question)" },
+
+  // L09
+  { t: "L09", k: "Define", s: "specific",
+    q: "Name the four classical ML methods covered in L09 for wind power forecasting.",
+    a: "Linear Regression (LR), k-Nearest Neighbours (kNN), Support Vector Regression (SVR), Artificial Neural Networks (ANN).",
+    f: "When does each win? · Which has a closed-form solution? · Which uses a kernel trick?",
+    x: "L10 (ANN deep version) · L11 (RNN for time series)" },
+  { t: "L09", k: "Define", s: "specific",
+    q: "What's the error metric used in the wind-forecasting comparison, and write it.",
+    a: "RMSE = √(mean(error²)) = √(1/n · Σ(y_i - ŷ_i)²). In R: sqrt(mean(error^2)). Penalises large errors disproportionately — matches the cost-asymmetric energy domain.",
+    f: "Why squared not absolute? · When is MAE better? · How does this connect to Gaussian noise assumption?",
+    x: "A2 (this is the assignment's metric)" },
+
+  // L10
+  { t: "L10", k: "Define", s: "specific",
+    q: "What activation function and loss function does the lecturer use in the worked NN example?",
+    a: "Activation: sigmoid σ(z) = 1/(1+e⁻ᶻ). Loss: MSE (mean squared error) = ½(y−ŷ)². Sigmoid because it's smooth and biologically motivated; MSE because it's smooth and convex with closed-form gradient.",
+    f: "Why not ReLU here? · Why ½ in the loss? · What's the gradient of sigmoid?",
+    x: "L09 (LR also uses MSE-style loss)" },
+
+  // L11
+  { t: "L11", k: "Define", s: "specific",
+    q: "What's the persistence baseline formula, and why is it the floor?",
+    a: "ŷ_t = y_{t−1}. No model, no training. For strongly autocorrelated signals like wind power, the previous step is already very close — anything not beating persistence is useless. Always report it as the comparison.",
+    f: "What if autocorrelation is weak? · What's a 24-hour persistence variant? · How does this compare to AR(1)?",
+    x: "A2 (we used this as the baseline)" },
+  { t: "L11", k: "Define", s: "specific",
+    q: "Write the AR(k) model and explain what k is.",
+    a: "ŷ_t = φ₁·y_{t-1} + φ₂·y_{t-2} + ... + φ_k·y_{t-k} + ε. k = number of lag terms (window size). AR(1) is the simplest: ŷ_t = φ·y_{t-1}. Fit by OLS on the lag-matrix.",
+    f: "How is k chosen? · What's the difference vs MA(k)? · How does this generalise to ARMA / ARIMA?",
+    x: "L09 (lag features for LR)" },
+
+  // A1
+  { t: "A1", k: "Define", s: "specific",
+    q: "Name 4 shiftable appliances and 4 non-shiftable from A1.",
+    a: "Shiftable: dishwasher, laundry machine, cloth dryer, EV. Non-shiftable: lighting, heating, refrigerator, electric stove, TV, computer.",
+    f: "Why is TV non-shiftable? · What windows do shiftable ones have? · How is heating handled — really non-shiftable?",
+    x: "L03 (shiftable/non-shiftable foundation)" },
+  { t: "A1", k: "Define", s: "specific",
+    q: "What are the 4 tasks in Assignment 1?",
+    a: "Task 1: 3-appliance LP with ToU pricing. Task 2: full appliance set with RTP. Task 3: 30 households with RTP. Task 4: peak-shaving with new variable L (still LP).",
+    f: "What's the price scheme jump between Task 1 and 2? · Why 30 households in Task 3? · How does Task 4 modify the LP?",
+    x: "L03 (DR design hierarchy)" },
+
+  // A2
+  { t: "A2", k: "Define", s: "specific",
+    q: "What's the test period and data source in Assignment 2?",
+    a: "Test: month of November 2013 (720 hours). Training: 2 years prior (1.1.2012 – 31.10.2013). Wind farm in Australia (normalised power, anonymised). Weather: ECMWF forecasts at 10m and 100m (U, V, WS components).",
+    f: "Why November specifically? · Why normalised power? · What does U and V mean physically?",
+    x: "L09 (the methods used) · L11 (time-series setup)" },
+  { t: "A2", k: "Define", s: "specific",
+    q: "What are the 4 tasks in Assignment 2?",
+    a: "Task 1: LR / kNN / SVR / ANN using WS10 only. Task 2: Multiple LR adding wind direction. Task 3: pure time-series (no weather) with LR / SVR / ANN / RNN. Task 4: backprop derivation + implementation on a 2-2-1 sigmoid net.",
+    f: "Why does Task 3 beat Task 2 surprisingly? · What does Task 4 actually test? · What's the metric?",
+    x: "L09 (Task 1/2) · L10 (Task 4 backprop) · L11 (Task 3 setup)" },
+
 ];
 
 
@@ -1107,18 +1255,6 @@ document.getElementById("btn-speak90").onclick = startSpeak;
 
 
 
-// ---------- segmented sub-mode toggle (single vs mock) ----------
-function setSubMode(mode) {
-  const isMock = mode === "mock";
-  document.getElementById("seg-single").classList.toggle("active", !isMock);
-  document.getElementById("seg-mock").classList.toggle("active", isMock);
-  document.getElementById("hero").classList.toggle("hidden", isMock);
-  document.getElementById("filters").classList.toggle("hidden", isMock);
-  document.querySelector(".top-controls").classList.toggle("hidden", isMock);
-  document.getElementById("mock-panel").classList.toggle("hidden", !isMock);
-}
-document.getElementById("seg-single").onclick = () => setSubMode("single");
-document.getElementById("seg-mock").onclick   = () => setSubMode("mock");
 
 // ---------- keyboard ----------
 document.addEventListener("keydown", e => {
@@ -1150,13 +1286,18 @@ function drawMockSet() {
     ["L05","L06"], ["L07","L08"],
     ["L09","L10","L11"], ["A1","A2"],
   ];
+  // Decide which 3 groups get specific (others get general)
+  const order = [...Array(groups.length).keys()].sort(() => Math.random() - 0.5);
+  const specificIdx = new Set(order.slice(0, 3));
   const draws = [];
-  for (const g of groups) {
-    const pool = Q.filter(q => g.includes(q.t));
+  groups.forEach((g, i) => {
+    const wantScope = specificIdx.has(i) ? "specific" : "general";
+    let pool = Q.filter(q => g.includes(q.t) && (q.s || "general") === wantScope);
+    // Fallback: if no specifics for that group, allow general
+    if (!pool.length) pool = Q.filter(q => g.includes(q.t));
     if (pool.length) draws.push(pool[Math.floor(Math.random() * pool.length)]);
-  }
-  while (draws.length > 5) draws.splice(Math.floor(Math.random() * draws.length), 1);
-  return draws;
+  });
+  return draws;  // 6 questions, ~3 general + ~3 specific
 }
 function renderMockCards(set) {
   document.getElementById("mock-cards").innerHTML = set.map(q => `
